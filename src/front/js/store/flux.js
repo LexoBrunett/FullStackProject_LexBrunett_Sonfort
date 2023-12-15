@@ -21,12 +21,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			categories: [],
 			products: [],
 			carrito: [],
-			restaurants: [],
-			sucursales: [],
 			order: [],
-			selectSucursale: null,
-			lat: 4.6556,
-			lng: -74.07,
 			auth: false,
 			user: null,
 			creado: null,
@@ -173,99 +168,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				await getActions().getCategories()
 			},
 
-			getRestaurants: async() => {
-					const response = await fetch(process.env.BACKEND_URL + 'api/restaurant')
-					const body = await response.json();
-					setStore({restaurants: body})
-				},
-
-			postRestaurants : async (obj) => {
-				await fetch(process.env.BACKEND_URL + 'api/restaurant', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(obj)
-				})
-				.then((response)=> response.json())
-				.then((data)=> console.log(data))
-				await getActions().getRestaurants()
-			},
-	
-			putRestaurants : async (id,obj) => {
-				await fetch(process.env.BACKEND_URL + 'api/restaurant/'+id, {
-					method: 'PUT',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(obj)
-				})
-				.then((response)=>response.json())
-				.then((data)=> console.log(data));
-				await getActions().getRestaurants()
-			},
-	
-			deleteRestaurants : async (id) => {
-				await fetch(process.env.BACKEND_URL + 'api/restaurant/'+id, {
-					method: 'DELETE',
-					headers: {
-						'Content-Type': 'application/json'
-					}
-				})
-				.then((response) => response.json())
-				.then((data) => console.log(data))
-				await getActions().getRestaurants()
-			},
-
-			getSucursales: async() => {
-				const response = await fetch(process.env.BACKEND_URL + 'api/sucursale', {
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-						'Authorization': `Bearer ${localStorage.getItem("token")}`
-					}
-				})
-				const body = await response.json();
-				setStore({sucursales: body});
-			},
-	
-			postSucursales : async (obj) => {
-				await fetch(process.env.BACKEND_URL + "api/sucursale", {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(obj)
-				})
-				.then((response)=> response.json())
-				.then((data)=> console.log(data))
-				await getActions().getSucursales()
-			},
-	
-			putSucursales : async (id,obj) => {
-				await fetch(process.env.BACKEND_URL + "/api/sucursale/"+id, {
-					method: 'PUT',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(obj)
-				})
-				.then((response)=>response.json())
-				.then((data)=> console.log(data))
-				await getActions().getSucursales()
-			},
-	
-			deleteSucursales : async (id) => {
-				await fetch(process.env.BACKEND_URL + "/api/sucursale/"+id, {
-					method: 'DELETE',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-				})
-				.then((response) => response.json())
-				.then((data) => console.log(data))
-				await getActions().getSucursales()
-			},
 			
 			getList: () => {
 				fetch(process.env.BACKEND_URL + 'api/products', 
@@ -462,19 +364,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then( response => response.json())
 				.then( data => console.log(data));
 				await getActions().getAllOrder(localStorage.getItem("token"))
-			},
-
-			getLatLng: (address) => {
-				fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyCj5o1FRwG7gBoDGpjpRddscMfNZ6Z0_cI")
-				.then(response => response.json())
-				.then(data => {
-					setStore({ lat : data.results[0].geometry.location.lat})
-					setStore({ lng : data.results[0].geometry.location.lng})
-				})
-			},
-			setSelectSucursale: (index) => {
-				setStore({ selectSucursale: index })
-				console.log(getStore().selectSucursale)
 			},
 		}
 	};
