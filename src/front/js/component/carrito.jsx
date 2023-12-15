@@ -21,11 +21,10 @@ export const Carrito = () => {
         }
     }, [store.carrito]); 
 
-    function change (id , amount, id_Product , id_Restaurant, id_Order) {
+    function change (id , amount, id_Product , id_Order) {
         const cart = {
             amount: amount,
             id_Product : id_Product,
-            id_Restaurant : id_Restaurant,
             id_Order : id_Order
         }
 
