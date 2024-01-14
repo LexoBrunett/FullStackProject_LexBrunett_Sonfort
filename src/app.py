@@ -13,8 +13,8 @@ default_app = initialize_app(cred)
 
 
 
-# from flask_migrate import Migrate
-# from flask_swagger import swagger
+from flask_migrate import Migrate
+from flask_swagger import swagger
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 
@@ -23,7 +23,7 @@ from flask_jwt_extended import JWTManager
 
 
 
-#from models import Person
+from models import Person
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
@@ -60,16 +60,16 @@ setup_commands(app)
 
 
 
-# # database condiguration
-# db_url = os.getenv("DATABASE_URL")
-# if db_url is not None:
-#     app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace("postgres://", "postgresql://")
-# else:
-#     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
+# database condiguration
+db_url = os.getenv("DATABASE_URL")
+if db_url is not None:
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace("postgres://", "postgresql://")
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# MIGRATE = Migrate(app, db, compare_type = True)
-# db.init_app(app)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+MIGRATE = Migrate(app, db, compare_type = True)
+db.init_app(app)
 
 # Add all endpoints form the API with a "api" prefix
 app.register_blueprint(api, url_prefix='/api')

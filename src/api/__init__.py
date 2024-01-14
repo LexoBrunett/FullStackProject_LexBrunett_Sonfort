@@ -3,37 +3,34 @@
 # """
 
 
-# import os
-# from flask import Flask, request, jsonify, url_for, send_from_directory
-# from flask_migrate import Migrate
-# from flask_swagger import swagger
-# from flask_cors import CORS
-# from api.utils import APIException, generate_sitemap
-# from api.models import db
-# from api.routes import api
-# from api.admin import setup_admin
-# from api.commands import setup_commands
+import os
+from flask import Flask, request, jsonify, url_for, send_from_directory
+from flask_migrate import Migrate
+from flask_swagger import swagger
+from flask_cors import CORS
+from api.utils import APIException, generate_sitemap
+from api.models import db
+from api.routes import api
+from api.admin import setup_admin
+from api.commands import setup_commands
+from .userApi import userApi
 
-# from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager
 
-# from flask import Flask
-# from firebase_admin import credentials,initialize_app
-
-
-# cred = credentials.Certificate("api/key.json")
+from flask import Flask
+from firebase_admin import credentials,initialize_app
 
 
-# default_app = initialize_app(cred)
+cred = credentials.Certificate("api/key.json")
 
 
-# def create_app():
-#     app = Flask(__name__)
-#     app.config["SECRET_KEY"] = "12345678"
-    
-#     from .userApi import userApi
-#     app.register_blueprint(userApi, url_prefix = "/user")
+default_app = initialize_app(cred)
 
-    
+
+def create_app():
+    app = Flask(__name__)
+    app.config["SECRET_KEY"] = "12345678"
+    app.register_blueprint(userApi, url_prefix = "/user")    
 
 
 
