@@ -8,6 +8,7 @@ export const User_registration = () => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false); // Agregado para controlar la visibilidad de la contraseña
     const [nameContact, setNameContact] = useState("");
     const [numContact, setNumContact] = useState("");
     const [create, setCreate] = useState(false);
@@ -50,7 +51,10 @@ export const User_registration = () => {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="inputPassword1" className="form-label">Contraseña</label>
-                        <input type="password" className="form-control" id="inputPassword1" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <input type={showPassword ? "text" : "password"} className="form-control" id="inputPassword1" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Ingresa tu Contraseña" />
+                                <button type="button" className="btn btn-outline-secondary" onClick={() => setShowPassword(!showPassword)}>
+                                    Mostrar
+                                </button>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="nameContact" className="form-label">Nombre de Contacto</label>
