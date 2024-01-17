@@ -18,7 +18,6 @@ export const User_registration = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log("CREANDO USUARIO");
         try {
             const usuario = {
                 username: username,
@@ -27,7 +26,7 @@ export const User_registration = () => {
                 name_contact: nameContact,
                 num_contact: numContact
             };
-            
+
             await actions.post_user(usuario);
             setCreate(true);
         } catch (error) {

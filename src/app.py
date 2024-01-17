@@ -2,28 +2,19 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, jsonify, send_from_directory
-from firebase_admin import credentials,initialize_app
-
-cred = credentials.Certificate("src/api/key.json")
-
-
-
-default_app = initialize_app(cred)
-
-
-
+from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
+from api.utils import APIException, generate_sitemap
+from api.models import db
+from api.routes import api
+from api.admin import setup_admin
+from api.commands import setup_commands
+
 from flask_jwt_extended import JWTManager
 
-
-
-
-
-
-from models import Person
+#from models import Person
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
@@ -32,33 +23,6 @@ app.url_map.strict_slashes = False
 
 app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
 jwt = JWTManager(app)
-
-
-
-
-# # Allow CORS requests to this API
-# CORS(app)
-# CORS(app, resources={r"*": {"origins": "*", "methods": ["GET", "POST", "PUT", "DELETE"], "allow_headers": "*"}})
-# CORS(app, resources={r"/api/*": {"origins": "*"}})
-# CORS(app, resources={r"/api/*": {"origins": "https://cuddly-xylophone-96wv6qv5x99397xq-3001.app.github.dev"}})
-CORS(app, resources={r"/api/*": {"origins": "*","methods": ["GET", "POST", "PUT", "DELETE"], "allow_headers": "*"}})
-
-
-
-from api.utils import APIException, generate_sitemap
-from api.models import db
-from api.routes import api
-from api.admin import setup_admin
-from api.commands import setup_commands
-
-# add the admin
-setup_admin(app)
-
-# add the admin
-setup_commands(app)
-
-
-
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
@@ -71,13 +35,17 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type = True)
 db.init_app(app)
 
+# Allow CORS requests to this API
+CORS(app)
+
+# add the admin
+setup_admin(app)
+
+# add the admin
+setup_commands(app)
+
 # Add all endpoints form the API with a "api" prefix
 app.register_blueprint(api, url_prefix='/api')
-
-
-
-
-
 
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)
