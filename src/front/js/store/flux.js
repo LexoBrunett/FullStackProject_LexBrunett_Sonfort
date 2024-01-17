@@ -128,7 +128,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			
 			postAdmin: (email,password) => {
-				fetch(process.env.BACKEND_URL + "api/login", {
+				fetch(process.env.BACKEND_URL + "api/login_admin", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
