@@ -59,60 +59,63 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			postUser: async (data, isLogin) => {
     try {
-        const endpoint = isLogin ? 'api/login' : 'api/users';
-        const response = await fetch(process.env.BACKEND_URL + endpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': isLogin ? undefined : `Bearer ${localStorage.getItem("token")}`
-            },
-            body: JSON.stringify(data),
-        });
+    const endpoint = isLogin ? 'api/login' : 'api/users';
+    const response = await fetch(process.env.BACKEND_URL + endpoint, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': isLogin ? undefined : `Bearer ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify(data),
+    });
 
-        if (!response.ok) {
-            // Manejo de errores para respuestas HTTP no exitosas
-            throw new Error(`Error: ${response.status} - ${response.statusText}`);
-        }
-
+    if (!response.ok) {
+        // Manejo de errores para respuestas HTTP no exitosas
         const responseData = await response.json();
-        console.log(responseData);
+        console.error(`Error ${response.status}:`, responseData);
 
-        if (isLogin) {
-            // Lógica específica para el login
-            if (response.status === 200) {
-                setStore({ auth: true });
-            } else {
-                setStore({ errorLogin: true });
-            }
-
-            localStorage.setItem("token", responseData.token);
-            localStorage.setItem("id", responseData.user_id);
-            setStore({ user: responseData.user });
-            setStore({ name: responseData.name });
-
-            await getActions().getCart();
+        // Mostrar mensajes de error específicos
+        if (responseData && responseData.message) {
+            setError(responseData.message);
         } else {
-            // Lógica específica para el registro
-            await getActions().getUser();
+            setError(`Error ${response.status}: ${response.statusText}`);
         }
-    } catch (error) {
-    console.error('Error al realizar la solicitud POST:', error);
 
-    // Verificar si hay información detallada en el cuerpo de la respuesta
-    if (error.response) {
-        // Error específico del servidor
-        console.log(error.response.status);  // Código de estado HTTP
-        console.log(error.response.statusText);  // Texto del estado HTTP
-        console.log(await error.response.text());  // Cuerpo de la respuesta como texto (puede contener detalles del error)
-    } else {
-        // Otros errores (pueden ser errores de red, etc.)
-        console.log('Error sin respuesta detallada');
+        throw new Error(`Error ${response.status}: ${responseData.message}`);
     }
 
-    setError("Error al registrar el usuario. Por favor, inténtalo de nuevo.");
-}
-},
+    const responseData = await response.json();
+    console.log(responseData);
 
+    if (isLogin) {
+        // Lógica específica para el login
+        if (response.status === 200) {
+            setStore({ auth: true });
+        } else {
+            setStore({ errorLogin: true });
+        }
+
+        localStorage.setItem("token", responseData.token);
+        localStorage.setItem("id", responseData.user_id);
+        setStore({ user: responseData.user });
+        setStore({ name: responseData.name });
+
+        await getActions().getCart();
+    } else {
+        // Lógica específica para el registro
+        await getActions().getUser();
+    }
+} catch (error) {
+    console.error('Error al realizar la solicitud POST:', error);
+
+    // Verificar si es un error de red
+    if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
+        setError('Error de conexión. Por favor, verifica tu conexión a Internet.');
+    } else {
+        setError("Error al registrar el usuario. Por favor, inténtalo de nuevo.");
+    }
+}
+			},
 			
 			postAdmin: (email,password) => {
 				fetch(process.env.BACKEND_URL + "api/login_admin", {

@@ -4,7 +4,6 @@ import { Navigate } from "react-router-dom";
 
 export const User_registration = () => {
     const { actions } = useContext(Context);
-
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -13,6 +12,7 @@ export const User_registration = () => {
     const [numContact, setNumContact] = useState("");
     const [create, setCreate] = useState(false);
     const [error, setError] = useState(null);
+
 
     const isFormValid = username && email && password && nameContact && numContact;
 
@@ -32,6 +32,7 @@ export const User_registration = () => {
             setCreate(true);
         } catch (error) {
             console.error("Error al registrar el usuario:", error);
+            // Asegúrate de tener la siguiente línea para establecer el error
             setError("Error al registrar el usuario. Por favor, inténtalo de nuevo.");
         }
     };
@@ -68,6 +69,7 @@ export const User_registration = () => {
                     <button disabled={!isFormValid} onClick={handleSubmit} className="btn btn-success my-2" style={{backgroundColor: "#800080"}}>
                         Guardar Cambios
                     </button>
+                    {error && <div className="error-message">{error}</div>}
                     {create && <Navigate to='/' />}
                 </form>
             </div>
