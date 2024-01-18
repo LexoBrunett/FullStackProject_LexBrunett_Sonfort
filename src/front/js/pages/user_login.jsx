@@ -17,7 +17,7 @@ export const User_login = () => {
         e.preventDefault();
         console.log("Email:", email);
         console.log("Password:", password);
-        actions.postUser({ email, password }, true);
+        actions.login({ email, password });
     }
 
     return (
@@ -51,7 +51,7 @@ export const User_login = () => {
                 <div className="modal-footer border-0 justify-content-center">
                     Aun no tienes cuenta? 
                     <div data-bs-dismiss="modal" aria-label="Close" style={{color:"#800080", textDecoration: "none"}}>
-                        <b onClick={() => setRedirect(true)}>Registrate</b>
+                        <b role="button" onClick={() => setRedirect(true)}>Registrate</b>
                         {redirect? <Navigate to="/user_registration" /> : null}
                     </div>
                 </div>

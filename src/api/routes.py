@@ -28,7 +28,8 @@ def handle_user_creation(body):
         username=body['username'],
         email=email,
         name_contact=body["name_contact"],
-        num_contact=body["num_contact"]
+        num_contact=body["num_contact"],
+        #is_admin=False
     )
     new_user.set_password(body["password"])
 
@@ -54,10 +55,10 @@ def get_users():
         return jsonify({"error": str(e), "message": "An error occurred while fetching user data"}), 500
 
 @api.route("/users", methods=["POST"])
-@jwt_required()  # Protege la ruta, requiere token de acceso
+#@jwt_required()  # Protege la ruta, requiere token de acceso
 def post_user():
     try:
-        current_user_id = get_jwt_identity()
+        #current_user_id = get_jwt_identity()
         # Lógica de la ruta para crear usuarios
         body = request.json
         response = handle_user_creation(body)
@@ -147,7 +148,6 @@ def post_login():
             "user": {
                 "id": user.id,
                 "username": user.username,
-                "name": user.name,
             }
         }
 

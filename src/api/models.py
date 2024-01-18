@@ -10,6 +10,7 @@ class User(db.Model):
     email = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(255), unique=False, nullable=False)  # Increased the length for hashed password
     is_active = db.Column(db.Boolean(), unique=False, nullable=True)
+    is_admin = db.Column(db.Boolean(), unique=False, nullable=True) 
     name_contact = db.Column(db.String(80), unique=True, nullable=False)
     num_contact = db.Column(db.String(10), unique=False, nullable=False)
 
