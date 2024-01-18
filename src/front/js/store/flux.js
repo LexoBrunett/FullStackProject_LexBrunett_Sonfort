@@ -11,22 +11,13 @@
 
 //const firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG)
 
-import { initializeApp } from "firebase/app";
+/*import { initializeApp } from "firebase/app";
 import { getStorage , ref , uploadBytes , getDownloadURL , deleteObject } from "firebase/storage";
 import { v4 } from 'uuid';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDSBh1QQAFrXNhHBZjxrPBaoCnS6FwsjEs",
-  authDomain: "sonfort-623bb.firebaseapp.com",
-  projectId: "sonfort-623bb",
-  storageBucket: "sonfort-623bb.appspot.com",
-  messagingSenderId: "1018044863257",
-  appId: "1:1018044863257:web:51c90cd6e49ea26dcbeb88",
-  measurementId: "G-X94FGL5BRV"
-};
 
 export const app = initializeApp(firebaseConfig);
-export const storage = getStorage(app);
+export const storage = getStorage(app);*/
 
 const getState = ({ getStore, getActions, setStore }) => {
   

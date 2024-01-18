@@ -57,6 +57,8 @@ def post_user():
         return response
 
     except Exception as e:
+        print(str(e))
+        print("message: An error occurred while creating the user")
         return jsonify({"error": str(e), "message": "An error occurred while creating the user"}), 500
 
 @api.route('/users/<int:id>', methods=['PUT'])
