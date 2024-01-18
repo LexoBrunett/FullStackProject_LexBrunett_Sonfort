@@ -90,6 +90,8 @@ class Order (db.Model):
     month_Date = db.Column(db.String(20), unique=False, nullable=False)
     year_Date = db.Column(db.String(20), unique=False, nullable=False)
     value = db.Column(db.Integer, unique=False, nullable=True)
+    id_User = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship('User')
 
     def __repr__(self):
         return f'<Orden {self.id}>'
@@ -102,6 +104,7 @@ class Order (db.Model):
             "month_Date": self.month_Date,
             "year_Date": self.year_Date,
             "value": self.value,
+            "user": self.user
         }
         return serialized_data
 
@@ -112,6 +115,8 @@ class Cart(db.Model):
     amount = db.Column(db.Integer, unique=False, nullable=False)
     id_Product = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
     product = db.relationship('Product')
+    id_User = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship('User')
     id_Order = db.Column(db.String, db.ForeignKey('order.id'), nullable=True)
     order = db.relationship('Order')
 
@@ -123,7 +128,8 @@ class Cart(db.Model):
                 "id": self.id,
                 "amount": self.amount,
                 "id_Product": self.id_Product,
-                "id_Order": self.id_Order
+                "id_Order": self.id_Order,
+                "id_User": self.id_User
             }
             if self.product:
                 serialized_data['product_info'] = self.product.serialize()

@@ -22,7 +22,7 @@ export const Carrito = () => {
         }
     }, [store.carrito]);
 
-    function change (id , amount, id_Product , id_Restaurant, id_Order) {
+    function change (id , amount, id_Product , id_User, id_Order) {
         if (amount == 0){
             actions.deleteCart(id)
             return;
@@ -31,7 +31,7 @@ export const Carrito = () => {
         const cart = {
             amount: amount,
             id_Product : id_Product,
-            id_Restaurant : id_Restaurant,
+            id_User : id_User,
             id_Order : id_Order
         }
 
