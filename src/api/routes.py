@@ -358,12 +358,12 @@ def post_cart():
         data = request.get_json()
 
         # Check if all required fields are present
-        required_fields = ['amount', 'id_Product', 'id_Order']
+        required_fields = ['amount', 'id_Product']
         for field in required_fields:
             if field not in data:
                 return jsonify({"error": f"Missing required field: {field}"}), 400
 
-        existing_cart = Cart.query.filter_by(id_Product=data['id_Product'], id_Order=None).first()
+        existing_cart = Cart.query.filter_by(id_Product=data['id_Product']).first()
 
         if existing_cart:
             existing_cart.amount += 1
@@ -376,6 +376,7 @@ def post_cart():
         return jsonify({"message": "Cart item created or updated successfully"}), 200
 
     except Exception as e:
+        
         return jsonify({"error": str(e), "message": "An error occurred while processing the cart item"}), 500
 
 @api.route('/cart/<int:id>', methods=['DELETE'])

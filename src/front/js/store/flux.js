@@ -292,7 +292,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then((data) => console.log(data));
         await getActions().getCart();
       },
-      postCart: async (amount, id_product, id_restaurant) => {
+      postCart: async (amount, id_product) => {
         await fetch(process.env.BACKEND_URL + "api/cart", {
           method: "POST",
           headers: {
@@ -302,8 +302,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           body: JSON.stringify({
             amount: amount,
             id_Product: id_product,
-            id_Restaurant: id_restaurant,
-            id_Order: null,
+            id_User: localStorage.getItem("id"),
           }),
         })
           .then((response) => response.json())
