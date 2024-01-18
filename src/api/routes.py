@@ -38,9 +38,13 @@ def handle_user_creation(body):
     return jsonify({"message": "User created successfully"}), 200
 
 # Rutas de Usuarios
+
 @api.route('/users', methods=['GET'])
+@jwt_required()  # Protege la ruta, requiere token de acceso
 def get_users():
     try:
+        current_user_id = get_jwt_identity()
+        # Lógica de la ruta para obtener usuarios
         all_users = User.query.all()
         users_serialized = [user.serialize() for user in all_users]
 
@@ -50,8 +54,11 @@ def get_users():
         return jsonify({"error": str(e), "message": "An error occurred while fetching user data"}), 500
 
 @api.route("/users", methods=["POST"])
+@jwt_required()  # Protege la ruta, requiere token de acceso
 def post_user():
     try:
+        current_user_id = get_jwt_identity()
+        # Lógica de la ruta para crear usuarios
         body = request.json
         response = handle_user_creation(body)
         return response
@@ -62,8 +69,11 @@ def post_user():
         return jsonify({"error": str(e), "message": "An error occurred while creating the user"}), 500
 
 @api.route('/users/<int:id>', methods=['PUT'])
+@jwt_required()  # Protege la ruta, requiere token de acceso
 def put_user(id):
     try:
+        current_user_id = get_jwt_identity()
+        # Lógica de la ruta para actualizar un usuario por ID
         user = User.query.get(id)
 
         if not user:
@@ -72,7 +82,7 @@ def put_user(id):
         body = request.json
         user.username = body.get('username', user.username)
         user.email = body.get('email', user.email)
-                
+
         # Check if password is present in the request before updating
         if 'password' in body:
             user.set_password(body['password'])
@@ -88,11 +98,13 @@ def put_user(id):
         return jsonify({"error": str(e), "message": "An error occurred while updating the user"}), 500
 
 @api.route('/users/<int:id>', methods=['DELETE'])
+@jwt_required()  # Protege la ruta, requiere token de acceso
 def delete_user(id):
     try:
+        current_user_id = get_jwt_identity()
+        # Lógica de la ruta para eliminar un usuario por ID
         user = User.query.get(id)
-        
-        # Check if user exists
+
         if not user:
             return jsonify({"message": "User not found"}), 404
 
@@ -104,32 +116,32 @@ def delete_user(id):
     except Exception as e:
         return jsonify({"error": str(e), "message": "An error occurred while deleting the user"}), 500
 
-# logins
+# Rutas de Login
 
 @api.route("/login", methods=["POST"])
 def post_login():
     try:
-        # Retrieve user credentials from the request JSON
+        # Obtiene credenciales del usuario desde la solicitud JSON
         email = request.json.get("email", None)
         password = request.json.get("password", None)
 
-        # Check if both username/email and password are provided
+        # Verifica que tanto el email como la contraseña estén proporcionados
         if not email or not password:
-            return jsonify({"error": "Invalid input", "message": "Username/Email and password are required"}), 400
+            return jsonify({"error": "Invalid input", "message": "Email and password are required"}), 400
 
-        # Query the database to find the user by username or email
+        # Consulta la base de datos para encontrar al usuario por username o email
         user = User.query.filter(
             (User.username == email) | (User.email == email)
         ).first()
 
-        # Check if the user is not found or the password is incorrect
+        # Verifica si el usuario no se encuentra o la contraseña es incorrecta
         if user is None or not user.check_password(password):
             return jsonify({"error": "Invalid credentials", "message": "Invalid username/email or password"}), 401
-        
-        # Generate an access token
+
+        # Genera un token de acceso
         access_token = create_access_token(identity=user.id)
 
-        # Return the access token and user information
+        # Retorna el token de acceso y la información del usuario
         response_data = {
             "token": access_token,
             "user": {
@@ -142,7 +154,7 @@ def post_login():
         return jsonify(response_data), 200
 
     except Exception as e:
-        # Handle any unexpected exceptions
+        # Maneja cualquier excepción inesperada
         return jsonify({"error": str(e), "message": "An error occurred while processing the login"}), 500
 
 # Products

@@ -28,7 +28,7 @@ export const User_registration = () => {
                 num_contact: numContact
             };
 
-            await actions.post_user(usuario);
+            await actions.postUser(usuario, false);
             setCreate(true);
         } catch (error) {
             console.error("Error al registrar el usuario:", error);
@@ -50,8 +50,8 @@ export const User_registration = () => {
                         <input type="email" className="form-control" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="inputPassword1" className="form-label">Contraseña</label>
-                        <input type={showPassword ? "text" : "password"} className="form-control" id="inputPassword1" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Ingresa tu Contraseña" />
+                        <label htmlFor="inputPassword1_html" className="form-label">Contraseña</label>
+                        <input type={showPassword ? "text" : "password"} className="form-control" id="inputPassword1_usercreation" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Ingresa tu Contraseña" />
                                 <button type="button" className="btn btn-outline-secondary" onClick={() => setShowPassword(!showPassword)}>
                                     Mostrar
                                 </button>

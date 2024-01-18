@@ -57,66 +57,62 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ auth : true})
 				}
 			},
-			postUser: async (email, password) => {
-				try {
-				const response = await fetch(process.env.BACKEND_URL + "api/login", {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'Access-Control-Allow-Origin': '*'
-				},
-				body: JSON.stringify({
-					email: email,
-					password: password
-				})
-				});
+			postUser: async (data, isLogin) => {
+    try {
+        const endpoint = isLogin ? 'api/login' : 'api/users';
+        const response = await fetch(process.env.BACKEND_URL + endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': isLogin ? undefined : `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(data),
+        });
 
-				if (response.status === 200) {
-				setStore({ auth: true });
-				} else {
-				setStore({ errorLogin: true });
-				}
+        if (!response.ok) {
+            // Manejo de errores para respuestas HTTP no exitosas
+            throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
 
-				const data = await response.json();
+        const responseData = await response.json();
+        console.log(responseData);
 
-				localStorage.setItem("token", data.token);
-				localStorage.setItem("id", data.user_id);
+        if (isLogin) {
+            // Lógica específica para el login
+            if (response.status === 200) {
+                setStore({ auth: true });
+            } else {
+                setStore({ errorLogin: true });
+            }
 
-				setStore({ user: data.user });
-				setStore({ name: data.name });
+            localStorage.setItem("token", responseData.token);
+            localStorage.setItem("id", responseData.user_id);
+            setStore({ user: responseData.user });
+            setStore({ name: responseData.name });
 
-				await getActions().getCart();
-				} catch (error) {
-				console.error('Error al realizar la solicitud POST:', error);
-				}
-				},
+            await getActions().getCart();
+        } else {
+            // Lógica específica para el registro
+            await getActions().getUser();
+        }
+    } catch (error) {
+    console.error('Error al realizar la solicitud POST:', error);
 
+    // Verificar si hay información detallada en el cuerpo de la respuesta
+    if (error.response) {
+        // Error específico del servidor
+        console.log(error.response.status);  // Código de estado HTTP
+        console.log(error.response.statusText);  // Texto del estado HTTP
+        console.log(await error.response.text());  // Cuerpo de la respuesta como texto (puede contener detalles del error)
+    } else {
+        // Otros errores (pueden ser errores de red, etc.)
+        console.log('Error sin respuesta detallada');
+    }
 
-			post_user: async (obj) => {
-				try {
-					const response = await fetch(process.env.BACKEND_URL + 'api/users', {
-					method: 'POST',
-					headers: {
-					'Content-Type': 'application/json',
-					},
-				body: JSON.stringify(obj),
-				});
+    setError("Error al registrar el usuario. Por favor, inténtalo de nuevo.");
+}
+},
 
-			if (!response.ok) {
-			// Manejo de errores para respuestas HTTP no exitosas
-			throw new Error(`Error: ${response.status} - ${response.statusText}`);
-			}
-
-			const data = await response.json();
-			console.log(data);
-
-			// Llamar a la función getUser después de completar la solicitud con éxito
-			await getActions().getUser();
-			} catch (error) {
-			// Manejo de errores generales
-			console.error('Error al realizar la solicitud POST:', error);
-			}
-			},
 			
 			postAdmin: (email,password) => {
 				fetch(process.env.BACKEND_URL + "api/login_admin", {

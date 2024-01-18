@@ -17,7 +17,7 @@ export const User_login = () => {
         e.preventDefault();
         console.log("Email:", email);
         console.log("Password:", password);
-        actions.postUser(email, password);
+        actions.postUser({ email, password }, true);
     }
 
     return (
@@ -39,7 +39,7 @@ export const User_login = () => {
                         <div className="mb-3">
                             <label htmlFor="inputPassword1" className="form-label"><b>Contraseña</b></label>
                             <div className="input-group">
-                                <input type={showPassword ? "text" : "password"} className="form-control" id="inputPassword1" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Ingresa tu Contraseña" />
+                                <input type={showPassword ? "text" : "password"} className="form-control" id="inputPassword1_userlogin" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Ingresa tu Contraseña" />
                                 <button type="button" className="btn btn-outline-secondary" onClick={() => setShowPassword(!showPassword)}>
                                     Mostrar
                                 </button>

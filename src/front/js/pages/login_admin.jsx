@@ -35,8 +35,8 @@ export const Admin_login = () => {
                             <input type="text" className="form-control" id="inputName1" value={email} onChange={(e) => setEmail(e.target.value)}/>
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="inputPassword1" className="form-label">Contraseña</label>
-                            <input type="password" className="form-control" id="inputPassword1" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                            <label htmlFor="inputPassword1_loginadmin" className="form-label">Contraseña</label>
+                            <input type="password" className="form-control" id="inputPassword1_loginadmin" value={password} onChange={(e) => setPassword(e.target.value)}/>
                         </div>
                         {store.errorLogin ? 
                             <div className="alert alert-danger alert-dismissible fade show" role="alert">
