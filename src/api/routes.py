@@ -30,6 +30,7 @@ def handle_user_creation(body):
         name_contact=body["name_contact"],
         num_contact=body["num_contact"],
         #is_admin=False
+        #is_active=True
     )
     new_user.set_password(body["password"])
 

@@ -14,6 +14,15 @@ from api.commands import setup_commands
 
 from flask_jwt_extended import JWTManager
 
+
+
+import firebase_admin
+from firebase_admin import credentials
+
+#cred = credentials.Certificate("path/to/serviceAccountKey.json")
+#firebase_admin.initialize_app(cred)
+
+
 #from models import Person
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
