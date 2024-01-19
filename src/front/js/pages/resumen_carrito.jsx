@@ -53,7 +53,7 @@ export const Resumen = () => {
                             <tr>
                                 <td style={{paddingLeft:"30px"}}><img src={item.product_info.url_img} width="50px"/></td>
                                 <td style={{alignItems:"center"}}>{item.product_info.name}</td>
-                                <td style={{alignItems:"center"}}>{item.product_info.amount}/kg</td>
+                                <td style={{alignItems:"center"}}>{item.product_info.amount}/Unidades</td>
                                 <td style={{alignItems:"center"}}>
                                     <div className="col-3 p-0">
                                         <div className="btn-group" role="group" aria-label="First group">
