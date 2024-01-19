@@ -75,7 +75,7 @@ export const Resumen = () => {
                         </div>
                     </div>
                     {total > 0 ? 
-                    <Link className="d-flex justify-content-end" to="/select_sucursal"  style={{padding:"20px", paddingBottom:"0px", textDecoration:"none"}}>
+                    <Link className="d-flex justify-content-end" to="/"  style={{padding:"20px", paddingBottom:"0px", textDecoration:"none"}}>
                         <button type="button" className="btn btn-success" style={{backgroundColor:"#800080"}}>Continuar</button>
                     </Link> 
                     :
