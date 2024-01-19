@@ -2,8 +2,10 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Product, Category, Cart, Order
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
 import re
-
+import tempfile
 api = Blueprint('api', __name__)
+import storage
+
 
 # Funciones auxiliares
 def validate_email(email):
@@ -38,6 +40,28 @@ def handle_user_creation(body):
     db.session.commit()
 
     return jsonify({"message": "User created successfully"}), 200
+
+#Rutas de Firebase
+
+#use este video https://www.youtube.com/watch?v=cVjfGp-UMB4&list=PLmBUv425PabUDVeeZcjlgmFd_A3CZmsYQ&index=79&ab_channel=4GeeksAcademy
+
+@api.route('/productimg', methods=['POST'])
+@jwt_required()
+def product_img():
+    user_id=get_jwt_identity()
+    
+    #recibir el archivo
+    file=request.files("productImg")
+    #extraer la extension
+    extension=file.filename.split(".")[1]
+    #guardar en un archivo temporal
+    temp=tempfile.NamedTemporaryFile(delete=False)
+    file.save(temp.name)
+    #cargar imagen a firebase
+    bucket=storage.bucket(name="sonfort-623bb.appspot.com")
+    filename="productsImg/"+str(user_id) + "." + extension
+    resource=bucket.blob(filename)
+    resource.upload_from_filename(temp)
 
 # Rutas de Usuarios
 
