@@ -79,7 +79,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       login: async (data) => {
         try {
-          const endpoint = "api/login" 
+          const endpoint = "api/login";
           const response = await fetch(process.env.BACKEND_URL + endpoint, {
             method: "POST",
             headers: {
@@ -93,11 +93,11 @@ const getState = ({ getStore, getActions, setStore }) => {
           const res = await response.json();
           if (response.ok) {
             console.log(res);
-	    setStore({user: res.user})
-	    setStore({ auth: true });
-	    localStorage.setItem("token", res.token)
-	    localStorage.setItem("id", res.user.id);
-      localStorage.setItem("is_admin", res.user.is_admin);
+            setStore({ user: res.user });
+            setStore({ auth: true });
+            localStorage.setItem("token", res.token);
+            localStorage.setItem("id", res.user.id);
+            localStorage.setItem("is_admin", res.user.is_admin);
           }
         } catch (error) {
           console.error("Error al realizar la solicitud POST:", error);
@@ -149,10 +149,31 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then((data) => console.log(data));
       },
       getCategories: async () => {
-        const response = await fetch(process.env.BACKEND_URL + "api/category");
-        const body = await response.json();
-        setStore({ categories: body });
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + "api/categories",
+            {
+              headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+              },
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error(
+              `Error: ${response.status} - ${response.statusText}`
+            );
+          }
+
+          const data = await response.json();
+          setStore({ categories: data.categories });
+          console.log("Categorías obtenidas:", data.categories);
+        } catch (error) {
+          console.error("Error al obtener categorías:", error.message);
+        }
       },
+
       postCategories: async (obj) => {
         await fetch(process.env.BACKEND_URL + "api/category", {
           method: "POST",

@@ -33,7 +33,7 @@ class User(db.Model):
         return check_password_hash(self.password, password)
 
 
-class Product (db.Model):
+class Product(db.Model):
     __tablename__ = 'product'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=False, nullable=False)
@@ -65,7 +65,7 @@ class Product (db.Model):
             return serialized_data
 
 
-class Category (db.Model):
+class Category(db.Model):
     __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=False, nullable=False)
@@ -83,7 +83,7 @@ class Category (db.Model):
             "idu_img": self.idu_img
         }
 
-class Order (db.Model):
+class Order(db.Model):
     __tablename__ = 'order'
     id = db.Column(db.String , primary_key=True)
     state = db.Column(db.String(80), unique=False, nullable=False)

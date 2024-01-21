@@ -271,10 +271,16 @@ def get_categories():
         all_categories = Category.query.all()
         categories_serialized = [category.serialize() for category in all_categories]
 
-        return jsonify(categories_serialized), 200
+        response_data = {
+            "categories": categories_serialized,
+            "message": "Category data fetched successfully"
+        }
+
+        return jsonify(response_data), 200
 
     except Exception as e:
         return jsonify({"error": str(e), "message": "An error occurred while fetching category data"}), 500
+
 
 @api.route('/categories', methods=['POST'])
 def post_category():
