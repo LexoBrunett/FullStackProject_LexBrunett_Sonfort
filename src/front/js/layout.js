@@ -31,7 +31,6 @@ import { Products2 } from "./pages/product2.jsx";
 import { Icono } from "./component/icono.jsx";
 
 import { Home_admin } from "./pages/home_admin.jsx";
-import { Navbar_user } from "./component/navbar_admin.jsx";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";

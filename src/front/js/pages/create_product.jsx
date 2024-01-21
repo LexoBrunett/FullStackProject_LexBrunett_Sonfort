@@ -39,7 +39,6 @@ export const Create_productos = () => {
             setCreate(true)
         } catch (error) {
             console.error(error);
-            console.log("hola")
         }
     }
 
@@ -69,17 +68,8 @@ export const Create_productos = () => {
                   alignItems: "center",
                 }}
               >
-                {/* <img src={file ? URL.createObjectURL(file) : default_rest } style={{maxWidth:"200px",minWidth:"200px",padding:"auto"}}/> */}
-                <label htmlFor="name" className="form-label">
-                  Url Imagen
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="url_img"
-                  value={url_img}
-                  onChange={(e) => setName(e.target.value)}
-                />
+                <img src={file ? URL.createObjectURL(file) : default_rest } style={{maxWidth:"200px",minWidth:"200px",padding:"auto"}}/>
+                
                 <div className="mb-3">
                   <input
                     id="img"
