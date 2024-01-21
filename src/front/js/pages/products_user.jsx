@@ -16,7 +16,8 @@ export const Products_user = () => {
     console.log(store.carrito)
   }, []);
 
-  function agregar (id) {
+  function agregar(id) {
+    console.log(store.auth);
     if (store.auth == true ) {
       actions.postCart(1,id, localStorage.getItem("id"));
       return;

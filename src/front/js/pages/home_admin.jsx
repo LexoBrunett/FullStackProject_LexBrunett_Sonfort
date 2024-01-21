@@ -4,21 +4,17 @@ import { Products } from "./products.jsx";
 import { Categorias } from "./categorias.jsx";
 import { All_ordenes } from "./all_ordenes.jsx";
 import "../../styles/home.css";
+import { Link, Navigate } from "react-router-dom";
 
 export const Home_admin = () => {
     const { store, actions } = useContext(Context)
 
     return (
-        <div className="container" style={{width:"100%" , height:"100%"}}>
-        {store.selectOpcion === 1 ? 
-            <Products/>
-        : null}
-        {store.selectOpcion === 2 ? 
-            <Categorias/>
-        : null}
-        {store.selectOpcion === 3 ? 
-            <All_ordenes/>
-        : null}
-        </div>
-    )
+      <div>
+        <Link to={"/products"}>Productos<br></br></Link>
+        <Link to={"/categorias"}>Categorias<br></br></Link>
+        <Link to={"/all_ordenes"}>Ordenes<br></br></Link>
+      </div>
+    );
 }
+

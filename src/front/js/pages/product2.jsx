@@ -12,9 +12,9 @@ export const Products2 = () => {
     store.auth ? actions.getCart() : null;
   }, []);
 
-  function agregar (id) {
-    if (store.auth && store.user == "restaurant") {
-      actions.postCart(1,id, localStorage.getItem("id"));
+  function agregar(id) {
+    if (store.auth == true) {
+      actions.postCart(1, id, localStorage.getItem("id"));
       return;
     }
 

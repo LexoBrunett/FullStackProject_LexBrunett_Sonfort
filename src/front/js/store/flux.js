@@ -97,6 +97,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 	    setStore({ auth: true });
 	    localStorage.setItem("token", res.token)
 	    localStorage.setItem("id", res.user.id);
+      localStorage.setItem("is_admin", res.user.is_admin);
           }
         } catch (error) {
           console.error("Error al realizar la solicitud POST:", error);

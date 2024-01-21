@@ -48,15 +48,10 @@ const Layout = () => {
                 <ScrollToTop>
                     <Navbar />
                     <div className="row p-0">
-                        { store.user == "admin" ? 
-                            <div className="col-3" style={{borderRight:"1px dashed #800080", minHeight:"100vh", paddingLeft:"10px"}}>
-                                <Navbar_user/>
-                            </div>
-                        : null}
                         <div className="col-9" style={{minWidth: store.user === "admin" ? "60%" : "85%", margin:"auto"}}>
                             <Routes> 
                                 <Route element={<Home />} path="/" />
-
+                                <Route element={<Home_admin />} path="/Home_admin" />
                                 <Route element={<Categorias />} path="/categorias" />
                                 <Route element={<Crear_categorias />} path="/crear_categorias" />
                                 <Route element={<Modificar_categorias />} path="/modificar_categorias/:theid" />
@@ -76,7 +71,6 @@ const Layout = () => {
                                 <Route element={<Categorias_user />} path="/categorias_user" />
                                 <Route element={<Products_Categorias />} path="/lista_por_categorias/:id_cat" />
                                 <Route element={<Products2 />} path="/product2" />
-                                <Route element={<Home_admin />} path="/home_user" />
                                 <Route element={<h1>Not found!</h1>} />
                             </Routes>
                             {store.auth && store.user == "user" ? 
