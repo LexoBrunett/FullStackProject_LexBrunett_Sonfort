@@ -33,6 +33,31 @@ export const Resumen = () => {
     
     }
 
+    const crear = async () => {
+      const fechaActual = new Date();
+      const dia = fechaActual.getDate();
+      const mes = fechaActual.getMonth() + 1;
+      const anio = fechaActual.getFullYear();
+
+      const order = {
+        id: "",
+        day_Date: dia,
+        month_Date: mes,
+        year_Date: anio,
+        value: store.priceOrder,
+        id_User: parseInt(localStorage.getItem("id")),
+      };
+
+      const id = await actions.postOrder(order);
+
+      for (const element of store.carrito) {
+        element.id_Order = id;
+        console.log(element);
+        await actions.addOrderCart(element, element.id);
+        await actions.creado();
+      }
+    };
+
     return(
         <>
         { !store.auth ? <Navigate to="/" /> :
@@ -75,7 +100,7 @@ export const Resumen = () => {
                         </div>
                     </div>
                     {total > 0 ? 
-                    <Link className="d-flex justify-content-end" to="/"  style={{padding:"20px", paddingBottom:"0px", textDecoration:"none"}}>
+                    <Link className="d-flex justify-content-end" to="/ordenes"  style={{padding:"20px", paddingBottom:"0px", textDecoration:"none"}}>
                         <button type="button" className="btn btn-success" style={{backgroundColor:"#800080"}}>Continuar</button>
                     </Link> 
                     :
