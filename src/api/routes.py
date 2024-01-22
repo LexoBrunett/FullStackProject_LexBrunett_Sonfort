@@ -58,7 +58,7 @@ def product_img():
     
     #recibir el archivo
     
-    idu = request.form.get('idu')
+    id = request.form.get('id')
     file = request.files['productImg']
 
     # file=request.files("productImg")
@@ -69,11 +69,12 @@ def product_img():
     file.save(temp.name)
     #cargar imagen a firebase
     bucket=storage.bucket(name="sonfort-623bb.appspot.com")
-    filename="productsImg/"+str(idu) + "." + extension
+    
+    filename="productsImg/"+str(id) + "." + extension
     resource=bucket.blob(filename)
     resource.upload_from_filename(temp.name, content_type="image/"+extension)
 
-    product = Product.query.get(idu)
+    product = Product.query.get(id)
     product.url_img = filename
     db.session.add(product)
     db.session.commit()
@@ -245,7 +246,9 @@ def post_product():
         db.session.add(new_product)
         db.session.commit()
 
-        return jsonify({"message": "Product created successfully"}), 200
+        created_product_id = new_product.id
+
+        return jsonify({"message": "Product created successfully","id":created_product_id}), 200
 
     except Exception as e:
         return jsonify({"error": str(e), "message": "An error occurred while creating the product"}), 500

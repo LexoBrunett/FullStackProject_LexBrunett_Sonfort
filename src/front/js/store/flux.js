@@ -240,7 +240,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         await getActions().getList();
       },
       postProduct: async (obj) => {
-        await fetch(process.env.BACKEND_URL + "api/products", {
+        const response = await fetch(process.env.BACKEND_URL + "api/products", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -248,9 +248,12 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
           body: JSON.stringify(obj),
         })
-          .then((response) => response.json())
-          .then((data) => console.log(data));
-        await getActions().getList();
+        .then((response) => response.json());
+          //.then((data) => console.log(data));
+
+          await getActions().getList();
+
+          return response;
       },
       deleteProduct: async (id) => {
         await fetch(process.env.BACKEND_URL + "api/products/" + id, {
@@ -270,24 +273,18 @@ const getState = ({ getStore, getActions, setStore }) => {
       upload_img: async (fileData) => {
         const formData = new FormData();
         console.log("fileData",fileData);
-        formData.append("idu", fileData["idu"]);
+        formData.append("id", fileData["id"]);
         formData.append("productImg", fileData["file"]);
 
-        fetch(process.env.BACKEND_URL + "api/productimg", {
-          method: "POST",
+        const response = await fetch(process.env.BACKEND_URL + "api/productimg", {
+          method: "POST", 
           headers: {
             "Access-Control-Allow-Origin": "*",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-          body: formData,
+          body: formData
         })
           .then((response) => response.json())
-          .then((data) => {
-            // setStore({ carrito: data });
-            // console.log("carrito", data);
-          });
-
-
           
 
         // const idu = v4();
@@ -296,7 +293,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         // const url = await getDownloadURL(storageRef);
         // return [url, idu];
 
-
+        return response;
       },
       getCart: () => {
         fetch(process.env.BACKEND_URL + "api/cart", {

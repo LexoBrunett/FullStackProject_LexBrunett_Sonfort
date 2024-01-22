@@ -18,29 +18,40 @@ export const Create_productos = () => {
     const isFormValid = name && desc && price && amount && cat;
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+      e.preventDefault();
 
-        try {
-            const temp = await actions.upload_img(file);
-            const url_img = temp[0];
-            idu_img = temp[1]
+      try {
+        // const temp = await actions.upload_img(file);
+        // const url_img = temp[0];
+        // idu_img = temp[1]
+        const url_img = "";
+        const idu_img = "";
 
-            const product = {
-                name: name,
-                description: desc,
-                price: price,
-                amount: amount,
-                url_img: url_img,
-                idu_img: idu_img,
-                id_category: cat
-            };
+        const product = {
+          name: name,
+          description: desc,
+          price: price,
+          amount: amount,
+          url_img: url_img,
+          idu_img: idu_img,
+          id_category: cat,
+        };
 
-            await actions.postProduct(product);
-            setCreate(true)
-        } catch (error) {
-            console.error(error);
+        let response = await actions.postProduct(product);
+
+        console.log("producto creado", response);
+        if (response.id && file) {
+          const fileData = {
+            id: response.id,
+            file: file,
+          };
+          const temp = await actions.upload_img(fileData);
         }
-    }
+        setCreate(true);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
     return (
       <>

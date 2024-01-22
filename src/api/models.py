@@ -36,7 +36,7 @@ class User(db.Model):
 
 
 class Product(db.Model):
-    __tablename__ = 'product'
+    _tablename_ = 'product'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=False, nullable=False)
     description = db.Column(db.String(500), unique=False, nullable=False)
@@ -48,12 +48,12 @@ class Product(db.Model):
     category = db.relationship('Category', backref='products')  # Corrected line
 
 
-    def __repr__(self):
+    def _repr_(self):
         return f'<Product {self.name}>'
 
     def urlImg(self):
 
-        bucket=storage.bucket(name="digitalstore-58a25.appspot.com")
+        bucket=storage.bucket(name="sonfort-623bb.appspot.com")
         resource = bucket.blob(self.url_img)
         return resource.generate_signed_url(version="v4", expiration = datetime.timedelta(minutes=15),method="GET")
 

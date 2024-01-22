@@ -25,13 +25,13 @@ export const Modificar_productos = () => {
       let url;
       if (file) {
         const fileData = {
-          idu: idu,
+          id: id,
           file: file,
         };
 
         const temp = await actions.upload_img(fileData);
-        url = temp[0];
-        setIdu(temp[1]);
+        url = temp.url_img;
+        setIdu(id);
       } else url = img;
 
       const product = {
@@ -51,7 +51,6 @@ export const Modificar_productos = () => {
       console.error(error);
     }
   };
-
   return (
     <>
       {!store.auth ? (
