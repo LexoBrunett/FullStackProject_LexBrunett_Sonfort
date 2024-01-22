@@ -16,7 +16,7 @@ export const Slide = () => {
 
                             <h2 className="text-white display-5 fw-bold mt-4">Tienda de Cosplays</h2>
                             <p className="lead">Compra tus cosplays yu accesorios con Seguridad y de forma Rapida.</p>
-                            <Link to="/lista_por_categorias/19">
+                            <Link to="/lista_por_categorias/1">
                                 <button href="#!" className="btn btn-dark mt-3" tabIndex="-1">
                                     Compra Ya
                                     <i className="feather-icon icon-arrow-right ms-1"></i>

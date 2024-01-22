@@ -21,7 +21,7 @@ export const Prom = () => {
                             <p className="mb-4">
                                 Hasta<span className="fw-bold"> 38% de descuento</span> 
                             </p>
-                            <Link to="/lista_por_categorias/19">
+                            <Link to="/lista_por_categorias/2">
                                 <button href="#!" className="btn btn-dark">Comprar ahora</button>
                             </Link>
                         </div>
@@ -44,7 +44,7 @@ export const Prom = () => {
                                 <span className="fw-bold"> 25% </span>
                                 de descuento
                             </p>
-                            <Link to="/lista_por_categorias/20">
+                            <Link to="/lista_por_categorias/1">
                                 <button href="#!" className="btn btn-dark">Comprar ahora</button>
                             </Link>                        
                         </div>
