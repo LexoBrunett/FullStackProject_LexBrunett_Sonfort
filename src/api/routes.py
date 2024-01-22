@@ -439,6 +439,7 @@ def post_cart():
         return jsonify({"error": str(e), "message": "An error occurred while processing the cart item"}), 500
 
 @api.route('/cart/<int:id>', methods=['DELETE'])
+
 def delete_cart(id):
     try:
         cart = Cart.query.get_or_404(id)
