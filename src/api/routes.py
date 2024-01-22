@@ -431,11 +431,14 @@ def delete_cart(id):
 
 # Orders
 
+from flask_jwt_extended import jwt_required, get_jwt_identity
+
 @api.route('/order', methods=['GET'])
 @jwt_required()
 def get_order():
     try:
-        all_orders = Order.query.all()
+        current_user_id = get_jwt_identity()  # Obtiene el ID del usuario del token JWT
+        all_orders = Order.query.filter_by(id_User=current_user_id).all()
         orders_with_info = []
 
         for order in all_orders:
@@ -464,6 +467,7 @@ def get_order():
 
     except Exception as e:
         return jsonify({"error": str(e), "message": "An error occurred while fetching order data"}), 500
+
 
 
 @api.route('/order/<id>', methods=['PUT'])
