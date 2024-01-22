@@ -10,11 +10,11 @@
 
 //const firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG)
 
-/*import { initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app";
 import { getStorage , ref , uploadBytes , getDownloadURL , deleteObject } from "firebase/storage";
 import { v4 } from 'uuid';
 
-
+/*
 export const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);*/
 

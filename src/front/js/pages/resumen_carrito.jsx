@@ -48,6 +48,7 @@ export const Resumen = () => {
         id_User: parseInt(localStorage.getItem("id")),
       };
 
+      console.log(order)
       const id = await actions.postOrder(order);
 
       for (const element of store.carrito) {
@@ -100,12 +101,12 @@ export const Resumen = () => {
                         </div>
                     </div>
                     {total > 0 ? 
-                    <Link className="d-flex justify-content-end" to="/ordenes"  style={{padding:"20px", paddingBottom:"0px", textDecoration:"none"}}>
-                        <button type="button" className="btn btn-success" style={{backgroundColor:"#800080"}}>Continuar</button>
+                    <Link className="d-flex justify-content-end" to="/All_ordenes"  style={{padding:"20px", paddingBottom:"0px", textDecoration:"none"}}>
+                        <button type="button" className="btn btn-success" style={{backgroundColor:"#800080"}}onClick={crear}>Confirmar Orden</button>
                     </Link> 
                     :
                     <div className="d-flex justify-content-end" style={{padding:"20px", paddingBottom:"0px"}}>
-                        <button type="button" className="btn btn-success" disabled={total <= 0} style={{backgroundColor:"#800080"}}>Continuar</button>
+                        <button type="button" className="btn btn-success" disabled={total <= 0} style={{backgroundColor:"#800080"}}onClick={crear}>Confirmar Orden</button>
                     </div> 
                     }
                 </div>

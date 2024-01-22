@@ -31,7 +31,7 @@ export const Slide = () => {
 
                             <h2 className="text-white display-5 fw-bold mt-4">Cosplays de alta calidad</h2>
                             <p className="lead">Descubre la nueva forma de comprar lo que necesitas tus convenciones de anime!</p>
-                            <Link to="/lista_por_categorias/20">
+                            <Link to="/lista_por_categorias/2">
                                 <button href="#!" className="btn btn-dark mt-3" tabIndex="0">
                                     Compra Ya
                                     <i className="feather-icon icon-arrow-right ms-1"></i>

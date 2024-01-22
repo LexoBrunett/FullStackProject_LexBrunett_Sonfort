@@ -396,13 +396,13 @@ def post_cart():
                 return jsonify({"error": f"Missing required field: {field}"}), 400
 
         existing_cart = Cart.query.filter_by(id_Product=data['id_Product'],id_User=data['id_User']).first()
-        print(existing_cart)
-        if existing_cart:
+        
+        
+        if existing_cart is not None and existing_cart.orden is not None:
             existing_cart.amount += 1
             db.session.commit()
         else:
             new_cart = Cart(**data)
-            print(new_cart)
             db.session.add(new_cart)
             db.session.commit()
 
@@ -483,7 +483,8 @@ def post_order():
             day_Date=data['day_Date'],
             month_Date=data['month_Date'],
             year_Date=data['year_Date'],
-            value=data['value']
+            value=data['value'],
+            id_User=int(data['id_User'])
         )
 
         db.session.add(new_order)
