@@ -447,14 +447,24 @@ def get_order():
                 cart_info = {"product_info": product.serialize()}
                 cart_with_product_info.append(cart_info)
 
-            order_item = order.serialize()
-            order_item["products"] = cart_with_product_info
+            order_item = {
+                "id": order.id,
+                "day_Date": order.day_Date,
+                "month_Date": order.month_Date,
+                "year_Date": order.year_Date,
+                "value": order.value,
+                "id_User": order.id_User,
+                "state": order.state,
+                "products": cart_with_product_info
+            }
+
             orders_with_info.append(order_item)
 
         return jsonify(orders_with_info), 200
 
     except Exception as e:
         return jsonify({"error": str(e), "message": "An error occurred while fetching order data"}), 500
+
 
 @api.route('/order/<id>', methods=['PUT'])
 def put_order(id):
@@ -526,11 +536,21 @@ def get_all_order():
                 cart_info = {"product_info": product.serialize()}
                 cart_with_product_info.append(cart_info)
 
-            order_item = order.serialize()
-            order_item["products"] = cart_with_product_info
+            order_item = {
+                "id": order.id,
+                "day_Date": order.day_Date,
+                "month_Date": order.month_Date,
+                "year_Date": order.year_Date,
+                "value": order.value,
+                "id_User": order.id_User,
+                "state": order.state,
+                "products": cart_with_product_info
+            }
+
             orders_with_info.append(order_item)
 
         return jsonify(orders_with_info), 200
 
     except Exception as e:
-        return jsonify({"error": str(e), "message": "An error occurred while fetching all order data"}), 500
+        return jsonify({"error": str(e), "message": "An error occurred while fetching order data"}), 500
+

@@ -4,15 +4,12 @@ import { Link, Navigate } from "react-router-dom";
 
 export const Ordenes = () => {
   const { store, actions } = useContext(Context);
-  console.log(store.order);
 
   useEffect(() => {
     store.auth ? actions.getOrder(localStorage.getItem("token")) : null;
   }, []);
 
-  // Verifica si store.order es un array antes de intentar hacer el mapeo
-  const orders = Array.isArray(store.order) ? store.order : [];
-
+  console.log(store.order);
   return (
     <>
       {!store.auth ? (
@@ -48,7 +45,7 @@ export const Ordenes = () => {
                 </tr>
               </thead>
               <tbody>
-                {orders.map((item) => (
+                {store.order.map((item) => (
                   <tr>
                     <td style={{ paddingLeft: "30px" }}>{item.id.slice(-4)}</td>
                     <td style={{ paddingLeft: "30px" }}>{item.id_User}</td>

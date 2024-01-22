@@ -358,7 +358,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
       },
       getAllOrder: (token) => {
-        fetch(process.env.BACKEND_URL + "api/all_order", {
+        fetch(process.env.BACKEND_URL + "api/order", {
           headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
@@ -366,7 +366,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
         })
           .then((response) => response.json())
-          .then((data) => setStore({ order: data }));
+          .then((data) => {
+            setStore({ order: data });
+            console.log(data);
+          });
       },
       putOrder: async (updatedOrder, id) => {
         console.log(updatedOrder);

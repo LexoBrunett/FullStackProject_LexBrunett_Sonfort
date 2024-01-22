@@ -3,6 +3,8 @@ import { Context } from "../store/appContext.js";
 import { Products } from "./products.jsx";
 import { Categorias } from "./categorias.jsx";
 import { All_ordenes } from "./all_ordenes.jsx";
+import { Ordenes } from "./ordenes.jsx";
+
 import "../../styles/home.css";
 import { Link, Navigate } from "react-router-dom";
 
@@ -72,7 +74,7 @@ export const Home_admin = () => {
       </Link>
 
       <Link
-        to="/all_ordenes"
+        to="/All_ordenes"
         className={`mi-boton`}
         style={{
           width: "247px",
