@@ -101,7 +101,7 @@ export const Resumen = () => {
                         </div>
                     </div>
                     {total > 0 ? 
-                    <Link className="d-flex justify-content-end" to="/All_ordenes"  style={{padding:"20px", paddingBottom:"0px", textDecoration:"none"}}>
+                    <Link className="d-flex justify-content-end" to="/ordenes"  style={{padding:"20px", paddingBottom:"0px", textDecoration:"none"}}>
                         <button type="button" className="btn btn-success" style={{backgroundColor:"#800080"}}onClick={crear}>Confirmar Orden</button>
                     </Link> 
                     :

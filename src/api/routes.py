@@ -395,16 +395,21 @@ def post_cart():
             if field not in data:
                 return jsonify({"error": f"Missing required field: {field}"}), 400
 
-        existing_cart = Cart.query.filter_by(id_Product=data['id_Product'],id_User=data['id_User']).first()
-        
-        
-        if existing_cart is not None and existing_cart.orden is not None:
+        existing_cart = Cart.query.filter_by(id_Product=data['id_Product'], id_User=data['id_User']).first()
+        # print(existing_cart.id_Order if existing_cart else None)
+
+        if existing_cart and (existing_cart.id_Order is None if hasattr(existing_cart, 'id_Order') else True):
+            # print("carrito existente sin orden anexada")
+            # print(existing_cart)
             existing_cart.amount += 1
             db.session.commit()
         else:
             new_cart = Cart(**data)
+            # print("nuevo carrito")
+            # print(new_cart)
             db.session.add(new_cart)
             db.session.commit()
+
 
         return jsonify({"message": "Cart item created or updated successfully"}), 200
 
