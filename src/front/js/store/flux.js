@@ -267,12 +267,36 @@ const getState = ({ getStore, getActions, setStore }) => {
         //const storageRef = ref( storage , `products/${idu}`);
         //await deleteObject(storageRef);
       },
-      upload_img: async (file) => {
-        const idu = v4();
-        const storageRef = ref(storage, `products/${idu}`);
-        await uploadBytes(storageRef, file);
-        const url = await getDownloadURL(storageRef);
-        return [url, idu];
+      upload_img: async (fileData) => {
+        const formData = new FormData();
+        console.log("fileData",fileData);
+        formData.append("idu", fileData["idu"]);
+        formData.append("productImg", fileData["file"]);
+
+        fetch(process.env.BACKEND_URL + "api/productimg", {
+          method: "POST",
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            // setStore({ carrito: data });
+            // console.log("carrito", data);
+          });
+
+
+          
+
+        // const idu = v4();
+        // const storageRef = ref(storage, products/${idu});
+        // await uploadBytes(storageRef, file);
+        // const url = await getDownloadURL(storageRef);
+        // return [url, idu];
+
+
       },
       getCart: () => {
         fetch(process.env.BACKEND_URL + "api/cart", {

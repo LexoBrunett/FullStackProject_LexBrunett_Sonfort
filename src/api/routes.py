@@ -4,7 +4,7 @@ from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_requir
 import re
 import tempfile
 api = Blueprint('api', __name__)
-import storage
+from firebase_admin import storage
 
 
 # Funciones auxiliares
@@ -48,10 +48,20 @@ def handle_user_creation(body):
 @api.route('/productimg', methods=['POST'])
 @jwt_required()
 def product_img():
-    user_id=get_jwt_identity()
+    print("INGRESANDO A P IMG")
+    # Verifica si se han enviado archivos
+    if 'productImg' not in request.files:
+        return jsonify({'error': 'No se ha enviado ningún archivo'}), 400
+    # file = request.files['productImg']
+    
+    print("OBTENEMOS FILE IMG")
     
     #recibir el archivo
-    file=request.files("productImg")
+    
+    idu = request.form.get('idu')
+    file = request.files['productImg']
+
+    # file=request.files("productImg")
     #extraer la extension
     extension=file.filename.split(".")[1]
     #guardar en un archivo temporal
@@ -59,9 +69,20 @@ def product_img():
     file.save(temp.name)
     #cargar imagen a firebase
     bucket=storage.bucket(name="sonfort-623bb.appspot.com")
-    filename="productsImg/"+str(user_id) + "." + extension
+    filename="productsImg/"+str(idu) + "." + extension
     resource=bucket.blob(filename)
-    resource.upload_from_filename(temp)
+    resource.upload_from_filename(temp.name, content_type="image/"+extension)
+
+    product = Product.query.get(idu)
+    product.url_img = filename
+    db.session.add(product)
+    db.session.commit()
+
+
+    print("IMG",product.urlImg())
+    urlImg = product.urlImg()
+
+    return jsonify({"message": "Img updated successfully","url_img":urlImg}), 200
 
 # Rutas de Usuarios
 

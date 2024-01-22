@@ -1,5 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from firebase_admin import storage
+import datetime
 
 db = SQLAlchemy()
 
@@ -49,21 +51,36 @@ class Product(db.Model):
     def __repr__(self):
         return f'<Product {self.name}>'
 
+    def urlImg(self):
+
+        bucket=storage.bucket(name="digitalstore-58a25.appspot.com")
+        resource = bucket.blob(self.url_img)
+        return resource.generate_signed_url(version="v4", expiration = datetime.timedelta(minutes=15),method="GET")
+
+
     def serialize(self):
+            bucket=storage.bucket(name="sonfort-623bb.appspot.com")
+            resource = bucket.blob(self.url_img)
+
+            print("ESTAMOS DENTRO DEL MODEL")
+            print(self.url_img)
+
+            url_img = resource.generate_signed_url(version="v4", expiration = datetime.timedelta(minutes=15),method="GET")
+
+            print(url_img)
             serialized_data = {
                 "id": self.id,
                 "name": self.name,
                 "description": self.description,
                 "price": self.price,
                 "amount": self.amount,
-                "url_img": self.url_img,
+                "url_img": url_img,
                 "idu_img": self.idu_img,
                 "id_category": self.id_category
             }
             if self.category:
                 serialized_data['category_info'] = self.category.serialize()
             return serialized_data
-
 
 class Category(db.Model):
     __tablename__ = 'category'
