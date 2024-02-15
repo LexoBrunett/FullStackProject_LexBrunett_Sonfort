@@ -45,7 +45,7 @@ export const Products2 = () => {
                 <div className="card card-product" style={{borderRadius:"8px"}}>
                 <div className="card-body" style={{height:"343px", width:"216"}}>
                   <div className="text-center position-relative">
-                    <a href="#!"><img src={item.url_img} alt="img product" className="img-fluid" style={{width:"184px",height:"184px", marginBottom:"12px"}}/></a>
+                    <a href="#!"><img src={item.idu_img} alt="img product" className="img-fluid" style={{width:"184px",height:"184px", marginBottom:"12px"}}/></a>
 
                     <div className="card-product-action">
                       <a href="#!" className="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal">

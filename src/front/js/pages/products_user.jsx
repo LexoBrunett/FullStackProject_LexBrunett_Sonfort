@@ -7,8 +7,9 @@ import estrellas from "../../img/estrellas.png"
 export const Products_user = () => {
   const { store, actions } = useContext(Context);
   const [ alertLoguin, setAlertLoguin ] = useState(false)
+  console.log(store.products);
 
-  const first15Products = store.products.slice(0, 10);
+  const first15Products = store.products && (store.products.length > 10 ? store.products.slice(0, 10): store.products);
 
   useEffect(() => {
     actions.getList();
