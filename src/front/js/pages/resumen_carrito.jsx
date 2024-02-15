@@ -1,13 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate,useNavigate } from "react-router-dom";
 import { All_ordenes } from "./all_ordenes.jsx";
 import { Ordenes } from "./ordenes.jsx";
+import PaypalButton from "../component/PayPalButtin.jsx";
 
 export const Resumen = () => {
     const { store, actions } = useContext(Context);
 
     const [ total , setTotal ] = useState(0)
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (Array.isArray(store.carrito)) {
@@ -59,6 +62,9 @@ export const Resumen = () => {
         await actions.addOrderCart(element, element.id);
         await actions.creado();
       }
+
+      navigate('/ordenes')
+      
     };
 
     return(
@@ -103,12 +109,15 @@ export const Resumen = () => {
                         </div>
                     </div>
                     {total > 0 ? 
-                    <Link className="d-flex justify-content-end" to="/ordenes"  style={{padding:"20px", paddingBottom:"0px", textDecoration:"none"}}>
+                    <>
+                    {/* <Link className="d-flex justify-content-end" to="/ordenes"  style={{padding:"20px", paddingBottom:"0px", textDecoration:"none"}}>
                         <button type="button" className="btn btn-success" style={{backgroundColor:"#800080"}}onClick={crear}>Confirmar Orden</button>
-                    </Link> 
+                    </Link>  */}
+                    <PaypalButton total={total} callback={crear}></PaypalButton>
+                    </>
                     :
                     <div className="d-flex justify-content-end" style={{padding:"20px", paddingBottom:"0px"}}>
-                        <button type="button" className="btn btn-success" disabled={total <= 0} style={{backgroundColor:"#800080"}}onClick={crear}>Confirmar Orden</button>
+                        {/* <button type="button" className="btn btn-success" disabled={total <= 0} style={{backgroundColor:"#800080"}}>Confirmar Orden</button> */}
                     </div> 
                     }
                 </div>
